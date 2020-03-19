@@ -32,7 +32,7 @@ class DrawerItem extends React.Component {
         return (
           <Icon
             size={16}
-            name="grid-on"
+            name="md-woman"
             family="ionicon"
             color={focused ? "white" : materialTheme.COLORS.MUTED}
           />
@@ -59,7 +59,7 @@ class DrawerItem extends React.Component {
         return (
           <Icon
             size={16}
-            name="grid-on"
+            name="logo-steam"
             family="material"
             color={focused ? "white" : materialTheme.COLORS.MUTED}
           />

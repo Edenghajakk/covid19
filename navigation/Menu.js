@@ -24,8 +24,8 @@ function CustomDrawerContent({
   const insets = useSafeArea();
   const screens = [
     "Home",
-    "Countries",
-    "Overall"
+    // "Countries",
+    // "Overall"
     // "Woman",
     // "Man",
     // "Kids",
