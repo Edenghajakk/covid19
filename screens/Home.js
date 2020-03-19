@@ -64,7 +64,7 @@ class Home extends React.Component {
 
     axios({
       method: "GET",
-      url: "https://coronavirus-19-api.herokuapp.com/countries",
+      url: "https://coronavirus-19-api.herokuapp.com/countries/",
       headers: {
         "content-type": "application/json"
       }
@@ -79,6 +79,28 @@ class Home extends React.Component {
         console.log(err);
       });
   }
+
+  componentDidUpdate = prevProps => {
+    const { countryName } = this.props;
+    if (countryName) {
+      axios({
+        method: "GET",
+        url: `https://coronavirus-19-api.herokuapp.com/countries/${countryName}`,
+        headers: {
+          "content-type": "application/json"
+        }
+      })
+        .then(response => {
+          const { updateCountries } = this.props;
+          // console.log(response.data);
+          const results = response.data;
+          updateCountries(results);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  };
 
   renderSearch = () => {
     const { navigation } = this.props;
@@ -142,7 +164,16 @@ class Home extends React.Component {
   };
 
   renderProducts = () => {
-    const { results, viewPage, cases, countries, priceColor } = this.props;
+    const {
+      results,
+      viewPage,
+      cases,
+      countries,
+      countryName,
+      priceColor
+    } = this.props;
+    console.log(countryName);
+
     return (
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -159,16 +190,6 @@ class Home extends React.Component {
                 key={index}
               />
             ))}
-            {/* <Block flex row>
-            <Product
-              product={products[1]}
-              style={{ marginRight: theme.SIZES.BASE, flex: 0.5, flexGrow: 0.5 }}
-            />
-            <Product
-              product={products[2]}
-              style={{ marginRight: theme.SIZES.BASE, flex: 0.5, flexGrow: 0.5 }}
-            />
-          </Block> */}
           </Block>
         ) : (
           <Block flex>
@@ -205,7 +226,12 @@ class Home extends React.Component {
             </Block>
             <Block>
               {countries.map((c, index) => (
-                <Block card flex style={[styles.product, styles.shadow]}>
+                <Block
+                  card
+                  flex
+                  style={[styles.product, styles.shadow]}
+                  key={index}
+                >
                   <Block
                     flex
                     space="between"
@@ -296,7 +322,8 @@ const mstp = ({ userReducer }) => ({
   results: userReducer.results,
   viewPage: userReducer.viewPage,
   cases: userReducer.cases,
-  countries: userReducer.countries
+  countries: userReducer.countries,
+  countryName: userReducer.countryName
 });
 
 const mdtp = {

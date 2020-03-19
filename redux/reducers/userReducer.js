@@ -4,7 +4,8 @@ const INITIAL_STATE = {
   countriesData: null,
   viewPage: "NEWS",
   cases: null,
-  countries: null
+  countries: null,
+  countryName: ""
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -40,6 +41,13 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         countries: action.results
+      };
+    }
+
+    case "SET_SEARCH_BY_COUNTRY": {
+      return {
+        ...state,
+        countryName: action.countryName
       };
     }
     default: {

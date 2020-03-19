@@ -21,4 +21,9 @@ export const updateTotal = results => ({
 export const updateCountries = results => ({
   type: "UPDATE_COUNTRIES",
   results
-})
+});
+
+export const setSearchByCountry = countryName => ({
+  type: "SET_SEARCH_BY_COUNTRY",
+  countryName
+});

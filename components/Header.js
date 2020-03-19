@@ -1,5 +1,6 @@
 import React from "react";
 import { withNavigation } from "@react-navigation/compat";
+import { TextInput } from "react-native";
 import {
   TouchableOpacity,
   StyleSheet,
@@ -8,7 +9,7 @@ import {
 } from "react-native";
 import { Button, Block, NavBar, Input, Text, theme } from "galio-framework";
 import { connect } from "react-redux";
-import { setViewPage } from "../redux/actions/userReducer";
+import { setViewPage, setSearchByCountry } from "../redux/actions/userReducer";
 
 import Icon from "./Icon";
 import materialTheme from "../constants/Theme";
@@ -84,18 +85,19 @@ class Header extends React.Component {
 
     switch (title) {
       case "Home":
-        return [
-          <ChatButton
-            key="chat-home"
-            navigation={navigation}
-            isWhite={white}
-          />,
-          <BasketButton
-            key="basket-home"
-            navigation={navigation}
-            isWhite={white}
-          />
-        ];
+        // return [
+        //   <ChatButton
+        //     key="chat-home"
+        //     navigation={navigation}
+        //     isWhite={white}
+        //   />,
+        //   <BasketButton
+        //     key="basket-home"
+        //     navigation={navigation}
+        //     isWhite={white}
+        //   />
+        // ];
+        return null;
       case "Deals":
         return [
           <ChatButton key="chat-categories" navigation={navigation} />,
@@ -185,14 +187,15 @@ class Header extends React.Component {
   };
 
   renderSearch = () => {
-    const { navigation } = this.props;
+    const { navigation, countryName, setSearchByCountry } = this.props;
     return (
       <Input
         right
         color="black"
         style={styles.search}
         placeholder="What are you looking for?"
-        onFocus={() => navigation.navigate("Pro")}
+        onFocus={() => navigation.navigate("App")}
+        onChangeText={setSearchByCountry(countryName)}
         iconContent={
           <Icon
             size={16}
@@ -255,7 +258,7 @@ class Header extends React.Component {
       return (
         <Block center>
           {/* {search ? this.renderSearch() : null} */}
-          {viewPage === "COUNTRIES" ? this.renderSearch() : null}
+          {/* {viewPage === "COUNTRIES" ? this.renderSearch() : null} */}
           {tabs ? this.renderTabs() : null}
         </Block>
       );
@@ -303,11 +306,13 @@ class Header extends React.Component {
 }
 
 const mstp = ({ userReducer }) => ({
-  viewPage: userReducer.viewPage
+  viewPage: userReducer.viewPage,
+  countryName: userReducer.countryName
 });
 
 const mdtp = {
-  setViewPage
+  setViewPage,
+  setSearchByCountry
 };
 
 export default withNavigation(connect(mstp, mdtp)(Header));
